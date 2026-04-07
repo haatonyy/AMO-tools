@@ -1,0 +1,13 @@
+EXPERIMENT LOG
+Folder: 04062026/04062026-205113
+Start Time: 2026-04-06 20:51:13
+Laser Device: *IDN?Arroyo 4205-DR 110802133 v2.01a 211
+Arduino Device: 3491_PD_01
+Experiment Message: 3491 horizontally polarized, 852 horizontally polarized, P852=25mW. Changing overlap experiment. Pos3
+------------------------------
+EXPERIMENT PARAMETERS
+3491 Initial Current: 72 mA
+3491 Final Current: 74 mA
+End Time: 2026-04-06 20:54:51
+Total Run Time: 3m 37s
+Status: Completed Successfully

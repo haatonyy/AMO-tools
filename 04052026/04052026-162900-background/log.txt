@@ -1,0 +1,13 @@
+EXPERIMENT LOG
+Folder: 04052026-162900-01
+Start Time: 2026-04-05 16:29:00
+Laser Device: *IDN?Arroyo 4205-DR 110802133 v2.01a 211
+Arduino Device: 3491_PD_01
+Experiment Message: Background 3491 - with 852 blocked
+------------------------------
+EXPERIMENT PARAMETERS
+3491 Initial Current: 71 mA
+3491 Final Current: 74 mA
+End Time: 2026-04-05 16:36:38
+Total Run Time: 7m 37s
+Status: Completed Successfully

@@ -1,0 +1,13 @@
+EXPERIMENT LOG
+Folder: 04052026/04052026-191737-01
+Start Time: 2026-04-05 19:17:37
+Laser Device: *IDN?Arroyo 4205-DR 110802133 v2.01a 211
+Arduino Device: 3491_PD_01
+Experiment Message: 3491 attenuated, P852=1.770, I852=95.6mA
+------------------------------
+EXPERIMENT PARAMETERS
+3491 Initial Current: 72 mA
+3491 Final Current: 74 mA
+End Time: 2026-04-05 19:21:14
+Total Run Time: 3m 37s
+Status: Completed Successfully

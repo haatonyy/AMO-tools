@@ -1,0 +1,13 @@
+EXPERIMENT LOG
+Folder: 04052026-165135-01
+Start Time: 2026-04-05 16:51:35
+Laser Device: *IDN?Arroyo 4205-DR 110802133 v2.01a 211
+Arduino Device: 3491_PD_01
+Experiment Message: P852=35.18mW
+------------------------------
+EXPERIMENT PARAMETERS
+3491 Initial Current: 72 mA
+3491 Final Current: 74 mA
+End Time: 2026-04-05 16:55:12
+Total Run Time: 3m 37s
+Status: Completed Successfully

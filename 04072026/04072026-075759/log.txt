@@ -1,0 +1,13 @@
+EXPERIMENT LOG
+Folder: 04072026/04072026-075759
+Start Time: 2026-04-07 07:57:59
+Laser Device: *IDN?Arroyo 4205-DR 110802133 v2.01a 211
+Arduino Device: 3491_PD_01
+Experiment Message: 3491 horizontally polarized, 852 horizontally polarized, P852=26.3mW. 1 tenth 3490 power.
+------------------------------
+EXPERIMENT PARAMETERS
+3491 Initial Current: 72 mA
+3491 Final Current: 73.8 mA
+End Time: 2026-04-07 08:01:14
+Total Run Time: 3m 14s
+Status: Completed Successfully
