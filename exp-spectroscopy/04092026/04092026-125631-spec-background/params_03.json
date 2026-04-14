@@ -1,0 +1,16 @@
+{
+    "run_index": 3,
+    "folder": "04092026/04092026-125631-spec-background",
+    "run_start": "2026-04-09 13:10:48",
+    "experiment_message": "Background File.",
+    "laser_id": "Arroyo 4205-DR 110802133",
+    "arduino_id": "3491_PD_01",
+    "i_init_mA": 72.0,
+    "i_final_mA": 74.0,
+    "current_step_mA": 0.01,
+    "step_delay_s": 1.5,
+    "p852_mW": 0,
+    "l2_position_deg": 31.5,
+    "data_file": "data_03.csv",
+    "log_file": "log_03.txt"
+}

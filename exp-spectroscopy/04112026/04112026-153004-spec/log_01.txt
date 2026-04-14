@@ -1,0 +1,44 @@
+================================================================================
+  3491 nm CURRENT SWEEP EXPERIMENT
+  Run 1
+================================================================================
+
+  PARAMETERS
+  ------------------------------------------------------------------------------
+  Folder                       04112026/04112026-153004-spec
+  Laser device                 Arroyo 4205-DR 110802133
+  Arduino device               3491_PD_01
+  Experiment message           Experiment but scanning large numbers of l2_position_deg
+  Cell temperature             8370.0 C
+  3491 laser temperature       29.739931671787133 C
+  3491 initial current         72 mA
+  3491 final current           74 mA
+  Current step size            0.01 mA
+  Step delay                   1.5 s
+  P852                         11 mW
+  λ/2 position                 0.0000 deg
+  ADC gain code                4
+  ADC range                    ±1.024 V
+  ADC precision                0.03125 mV/bit
+  Data file                    data_01.csv
+
+  ------------------------------------------------------------------------------
+  EVENT LOG
+  ------------------------------------------------------------------------------
+  2026-04-11 15:30:07  [INFO ]  Log opened — 2026-04-11 15:30:07
+  2026-04-11 15:30:07  [INFO ]  ADC gain set to 4 (±1.024 V, 0.03125 mV/bit)
+  2026-04-11 15:30:07  [INFO ]  Laser limits set (LDV=3.2 V, LDI=100 mA, STEP=1)
+  2026-04-11 15:30:07  [INFO ]  Laser current set to 72 mA — waiting 5 s to stabilize
+  2026-04-11 15:30:12  [INFO ]  Laser stabilized
+  2026-04-11 15:30:12  [INFO ]  Moving λ/2 stage to 0.0000°
+  2026-04-11 15:30:14  [INFO ]  λ/2 stage reached 0.0000°
+  2026-04-11 15:30:14  [INFO ]  ADC settling — 6 dummy reads
+  2026-04-11 15:30:17  [INFO ]  ADC settled
+  2026-04-11 15:30:17  [INFO ]  Sweep started — 72 → 74 mA, 200 steps, 1.5 s/step
+  2026-04-11 15:30:31  [INFO ]  Laser current reset to 72 mA
+  2026-04-11 15:30:31  [INFO ]  End time     : 2026-04-11 15:30:31
+  2026-04-11 15:30:31  [INFO ]  Total runtime: 0m 24s
+  2026-04-11 15:30:31  [INFO ]  Status       : SUCCESS
+
+  ------------------------------------------------------------------------------
+================================================================================

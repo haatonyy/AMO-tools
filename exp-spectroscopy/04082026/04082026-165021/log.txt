@@ -1,0 +1,16 @@
+λ/2 POSITION SCAN LOG
+Folder:             04082026/04082026-165021
+Start Time:         2026-04-08 16:50:21
+Experiment Message: 
+----------------------------------------
+SCAN PARAMETERS
+Scan start:         14.0 deg
+Scan end:           60.0 deg
+Step size:          1.0 deg
+Steps:              46
+Total sweep:        46.00 deg
+Settle time:        0.3 s
+Returned to:        14.0000 deg
+End Time:           2026-04-08 16:51:10
+Total Run Time:     0m 49s
+Status:             Completed Successfully

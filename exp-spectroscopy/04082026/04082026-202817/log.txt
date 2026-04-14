@@ -1,0 +1,15 @@
+EXPERIMENT LOG
+Folder:               04082026/04082026-202817
+Start Time:           2026-04-08 20:28:17
+Laser Device:         Arroyo 4205-DR 110802133
+Arduino Device:       3491_PD_01
+Experiment Message:   
+----------------------------------------
+EXPERIMENT PARAMETERS
+3491 Initial Current: 72.0 mA
+3491 Final Current:   73.8 mA
+λ/2 Stage Position:   -4.0000 deg
+P852:                 23.7 mW
+End Time:             2026-04-08 20:32:47
+Total Run Time:       4m 29s
+Status:               Completed Successfully

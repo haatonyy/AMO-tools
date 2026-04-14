@@ -1,0 +1,21 @@
+{
+    "run_index": 89,
+    "folder": "04112026/04112026-233630-spec",
+    "run_start": "2026-04-12 07:11:46",
+    "experiment_message": "Experiment but scanning large numbers of l2_position_deg",
+    "cell_temp": 60.3,
+    "laser_id": "Arroyo 4205-DR 110802133",
+    "arduino_id": "3491_PD_01",
+    "temp_3491": 29.739931671787133,
+    "i_init_mA": 72,
+    "i_final_mA": 74,
+    "current_step_mA": 0.01,
+    "step_delay_s": 1.5,
+    "p852_mW": 27.17,
+    "l2_position_deg": 44.0,
+    "adc_gain_code": 4,
+    "adc_range": "\u00b11.024 V",
+    "adc_precision_mV_bit": 0.03125,
+    "data_file": "data_89.csv",
+    "log_file": "log_89.txt"
+}

@@ -1,0 +1,45 @@
+================================================================================
+  3491 nm CURRENT SWEEP EXPERIMENT
+  Run 42
+================================================================================
+
+  PARAMETERS
+  ------------------------------------------------------------------------------
+  Folder                       04122026/04122026-130418-spec
+  Laser device                 Arroyo 4205-DR 110802133
+  Arduino device               3491_PD_01
+  Experiment message           Experiment but scanning large numbers of l2_position_deg
+  Cell temperature             59.9 C
+  3491 laser temperature       29.740 C
+  3491 initial current         72 mA
+  3491 final current           74 mA
+  Current step size            0.01 mA
+  Step delay                   1.5 s
+  P852                         3.077 mW
+  λ/2 position                 20.5000 deg
+  ADC gain code                4
+  ADC range                    ±1.024 V
+  ADC precision                0.03125 mV/bit
+  Data file                    data_42.csv
+
+  ------------------------------------------------------------------------------
+  EVENT LOG
+  ------------------------------------------------------------------------------
+  2026-04-12 16:36:29  [INFO ]  Log opened — 2026-04-12 16:36:29
+  2026-04-12 16:36:29  [INFO ]  ADC gain set to 4 (±1.024 V, 0.03125 mV/bit)
+  2026-04-12 16:36:29  [INFO ]  Laser limits set (LDV=3.2 V, LDI=100 mA, STEP=1)
+  2026-04-12 16:36:29  [INFO ]  Laser current set to 72 mA — waiting 5 s to stabilize
+  2026-04-12 16:36:34  [INFO ]  Laser stabilized
+  2026-04-12 16:36:34  [INFO ]  Moving λ/2 stage to 20.5000°
+  2026-04-12 16:36:36  [INFO ]  λ/2 stage reached 20.5000°
+  2026-04-12 16:36:36  [INFO ]  ADC settling — 6 dummy reads
+  2026-04-12 16:36:39  [INFO ]  ADC settled
+  2026-04-12 16:36:39  [INFO ]  Sweep started — 72 → 74 mA, 200 steps, 1.5 s/step
+  2026-04-12 16:41:40  [INFO ]  Sweep complete — 200 steps written to data_42.csv
+  2026-04-12 16:41:40  [INFO ]  Laser current reset to 72 mA
+  2026-04-12 16:41:40  [INFO ]  End time     : 2026-04-12 16:41:40
+  2026-04-12 16:41:40  [INFO ]  Total runtime: 5m 10s
+  2026-04-12 16:41:40  [INFO ]  Status       : SUCCESS
+
+  ------------------------------------------------------------------------------
+================================================================================

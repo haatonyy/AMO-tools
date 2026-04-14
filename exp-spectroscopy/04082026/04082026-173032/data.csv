@@ -1,0 +1,3 @@
+trial,event,stage_pos_deg,voltage_V,elapsed_s
+1,at_target,45.0000,0.0,13.63
+1,returned,45.0000,0.0,32.59

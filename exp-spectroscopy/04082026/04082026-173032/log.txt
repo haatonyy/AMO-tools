@@ -1,0 +1,9 @@
+L/2 REPEATABILITY TEST LOG
+Start Time:    2026-04-08 17:30:32
+End Time:      2026-04-08 17:31:08
+Duration:      0m 35s
+----------------------------------------
+Target:        45.0 deg
+Jog distance:  20.0 deg
+Jog wait:      5.0 s
+Trials:        5

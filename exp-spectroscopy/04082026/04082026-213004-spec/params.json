@@ -1,0 +1,20 @@
+{
+    "experiment_message": "",
+    "folder": "04082026/04082026-213004-spec",
+    "run_start": "2026-04-08 21:30:04",
+    "laser_port": "/dev/ttyUSB1",
+    "arduino_port": "/dev/ttyACM3",
+    "i_init_mA": 72.0,
+    "i_final_mA": 74.0,
+    "current_step_mA": 0.01,
+    "step_delay_s": 1.5,
+    "p852_mW": 23.7,
+    "l2_positions_deg": [
+        -4.0,
+        18.5,
+        31.5
+    ],
+    "n_sweeps": 3,
+    "laser_id": "Arroyo 4205-DR 110802133",
+    "arduino_id": "3491_PD_01"
+}
