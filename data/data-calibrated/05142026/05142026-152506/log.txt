@@ -1,0 +1,49 @@
+================================================================================
+  λ/2 WAVEPLATE POSITION SCAN
+================================================================================
+
+  PARAMETERS
+  ------------------------------------------------------------------------------
+  Folder                       data/data-calibrated/05142026/05142026-152506
+  Date                         05142026
+  Time                         152506
+  Arduino port                 /dev/ttyACM1
+  Kinesis port                 /dev/ttyUSB0
+  Experiment message           calibrated
+  Scan start                   0.0 deg
+  Scan end                     90.0 deg
+  Step size                    3.0 deg
+  Steps                        30
+  Total sweep                  90.00 deg
+  Settle time                  0.3 s
+  Channels                     [1, 3]
+  Laser current                72.0 mA
+  Laser temperature            59.9 C
+  ADC gain code                4
+  ADC range                    ±1.024 V
+  ADC precision                0.03125 mV/bit
+  Data file                    data.csv
+
+  ------------------------------------------------------------------------------
+  EVENT LOG
+  ------------------------------------------------------------------------------
+  2026-05-14 15:25:06  [INFO ]  Log opened — 2026-05-14 15:25:06
+  2026-05-14 15:25:07  [INFO ]  Arduino verified: 3491_PD_01
+  2026-05-14 15:25:07  [INFO ]  Arduino START sent (gain code 4, ±1.024 V)
+  2026-05-14 15:25:08  [INFO ]  K10CR1 connected on /dev/ttyUSB0
+  2026-05-14 15:25:08  [INFO ]  Moving to start position: 0.0°
+  2026-05-14 15:25:08  [INFO ]  Reached start position: 0.0000°
+  2026-05-14 15:25:08  [INFO ]  ADC settling — 5 dummy reads on channels [1, 3]
+  2026-05-14 15:25:12  [INFO ]  ADC settled
+  2026-05-14 15:25:12  [INFO ]  Sweep started — 0.0° → 90.0°, 30 steps of +3.000°, settle=0.3 s, channels=[1, 3]
+  2026-05-14 15:26:19  [INFO ]  Sweep complete — 30 points written to data.csv
+  2026-05-14 15:26:19  [INFO ]  Returning to start position: 0.0°
+  2026-05-14 15:26:30  [INFO ]  Returned to 0.0000°
+  2026-05-14 15:26:30  [INFO ]  K10CR1 connection closed
+  2026-05-14 15:26:30  [INFO ]  Arduino connection closed
+  2026-05-14 15:26:30  [INFO ]  End time     : 2026-05-14 15:26:30
+  2026-05-14 15:26:30  [INFO ]  Total runtime: 1m 23s
+  2026-05-14 15:26:30  [INFO ]  Status       : SUCCESS
+
+  ------------------------------------------------------------------------------
+================================================================================

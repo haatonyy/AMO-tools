@@ -1,0 +1,9 @@
+/.vscode
+/z-misc
+
+*.ipynb
+*.pyc
+
+plot_os.py
+test.py
+note.txt

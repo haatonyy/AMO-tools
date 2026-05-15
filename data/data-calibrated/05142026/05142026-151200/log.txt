@@ -1,0 +1,39 @@
+================================================================================
+  λ/2 WAVEPLATE POSITION SCAN
+================================================================================
+
+  PARAMETERS
+  ------------------------------------------------------------------------------
+  Folder                       data/data-calibrated/05142026/05142026-151200
+  Date                         05142026
+  Time                         151200
+  Arduino port                 /dev/ttyACM1
+  Kinesis port                 /dev/ttyUSB0
+  Experiment message           calibrated
+  Scan start                   0.0 deg
+  Scan end                     90.0 deg
+  Step size                    3.0 deg
+  Steps                        30
+  Total sweep                  90.00 deg
+  Settle time                  0.3 s
+  Channels                     [1, 3]
+  Laser current                72.0 mA
+  Laser temperature            59.9 C
+  ADC gain code                4
+  ADC range                    ±1.024 V
+  ADC precision                0.03125 mV/bit
+  Data file                    data.csv
+
+  ------------------------------------------------------------------------------
+  EVENT LOG
+  ------------------------------------------------------------------------------
+  2026-05-14 15:12:00  [INFO ]  Log opened — 2026-05-14 15:12:00
+  2026-05-14 15:12:01  [INFO ]  Arduino verified: 3491_PD_01
+  2026-05-14 15:12:01  [INFO ]  Arduino START sent (gain code 4, ±1.024 V)
+  2026-05-14 15:12:02  [INFO ]  K10CR1 connected on /dev/ttyUSB0
+  2026-05-14 15:12:02  [INFO ]  Moving to start position: 0.0°
+  2026-05-14 15:12:02  [INFO ]  Reached start position: 0.0000°
+  2026-05-14 15:12:02  [INFO ]  ADC settling — 5 dummy reads on channels [1, 3]
+  2026-05-14 15:12:08  [INFO ]  ADC settled
+  2026-05-14 15:12:08  [INFO ]  Sweep started — 0.0° → 90.0°, 30 steps of +3.000°, settle=0.3 s, channels=[1, 3]
+  2026-05-14 15:12:18  [INFO ]  Returning to start position: 0.0°

@@ -1,0 +1,24 @@
+{
+    "experiment_message": "calibrated",
+    "folder": "data/data-calibrated/05142026/05142026-151444",
+    "date": "05142026",
+    "time": "151444",
+    "run_start": "2026-05-14 15:14:44",
+    "arduino_port": "/dev/ttyACM1",
+    "kinesis_port": "/dev/ttyUSB0",
+    "start_deg": 0.0,
+    "end_deg": 90.0,
+    "step_deg": 3.0,
+    "n_steps": 30,
+    "settle_s": 0.3,
+    "channels": [
+        1,
+        3
+    ],
+    "laser_current_mA": 72.0,
+    "laser_temperature_C": 59.9,
+    "adc_gain_code": 4,
+    "adc_range": "\u00b11.024 V",
+    "adc_precision_mV_bit": 0.03125,
+    "arduino_id": "3491_PD_01"
+}
