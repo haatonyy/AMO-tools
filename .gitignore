@@ -1,7 +1,6 @@
 /.vscode
 /z-misc
 
-*.ipynb
 *.pyc
 
 plot_os.py
