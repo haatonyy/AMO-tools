@@ -1,5 +1,5 @@
 from arc import Cesium
-import devices.config as config
+import exp.devices.config as config
 import numpy as np
 
 

@@ -1,0 +1,128 @@
+================================================================================
+  λ/2 WAVEPLATE POSITION SCAN
+================================================================================
+
+  PARAMETERS
+  ------------------------------------------------------------------------------
+  Folder                       /home/aqua/Documents/AMO-tools/data/data-calibrated/05152026/05152026-160503
+  Date                         05152026
+  Time                         160503
+  Arduino port                 /dev/ttyACM1
+  Kinesis port                 /dev/ttyUSB0
+  Laser 3491 port              /dev/ttyUSB1
+  Experiment message           calibrated
+  Scan start                   0.0 deg
+  Scan end                     90.0 deg
+  Step size                    3.0 deg
+  Steps                        30
+  Total sweep                  90.00 deg
+  Settle time                  0.1 s
+  Channels                     [1, 3]
+  Repeats                      10
+  Laser current                80.0 mA
+  Laser thermistor R           8370.0 Ohm
+  Laser temperature            29.739931671787133 C
+  ADC gain code                4
+  ADC range                    ±1.024 V
+  ADC precision                0.03125 mV/bit
+  Data files                   data_01.csv … data_10.csv
+
+  ------------------------------------------------------------------------------
+  EVENT LOG
+  ------------------------------------------------------------------------------
+  2026-05-15 16:05:03  [INFO ]  Log opened — 2026-05-15 16:05:03
+  2026-05-15 16:05:04  [INFO ]  Arduino verified: 3491_PD_01
+  2026-05-15 16:05:05  [INFO ]  Arduino START sent (gain code 4, ±1.024 V)
+  2026-05-15 16:05:05  [INFO ]  K10CR1 connected on /dev/ttyUSB0
+  2026-05-15 16:05:10  [INFO ]  3491 Laser initialized on /dev/ttyUSB1 at 80.0 mA
+  2026-05-15 16:05:10  [INFO ]  === Repeat 1/10 starting → data_01.csv ===
+  2026-05-15 16:05:10  [INFO ]  [repeat 1/10] Moving to start position: 0.0°
+  2026-05-15 16:05:10  [INFO ]  [repeat 1/10] Reached start position: 0.0000°
+  2026-05-15 16:05:10  [INFO ]  [repeat 1/10] ADC settling — 5 dummy reads on channels [1, 3]
+  2026-05-15 16:05:15  [INFO ]  [repeat 1/10] ADC settled
+  2026-05-15 16:05:15  [INFO ]  [repeat 1/10] Sweep started — 0.0° → 90.0°, 30 steps of +3.000°, settle=0.1 s, channels=[1, 3]
+  2026-05-15 16:06:16  [INFO ]  [repeat 1/10] Sweep complete — 30 points written to data_01.csv
+  2026-05-15 16:06:16  [INFO ]  === Repeat 1/10 complete ===
+  2026-05-15 16:06:16  [INFO ]  === Repeat 2/10 starting → data_02.csv ===
+  2026-05-15 16:06:16  [INFO ]  [repeat 2/10] Moving to start position: 0.0°
+  2026-05-15 16:06:26  [INFO ]  [repeat 2/10] Reached start position: 0.0000°
+  2026-05-15 16:06:26  [INFO ]  [repeat 2/10] ADC settling — 5 dummy reads on channels [1, 3]
+  2026-05-15 16:06:31  [INFO ]  [repeat 2/10] ADC settled
+  2026-05-15 16:06:31  [INFO ]  [repeat 2/10] Sweep started — 0.0° → 90.0°, 30 steps of +3.000°, settle=0.1 s, channels=[1, 3]
+  2026-05-15 16:07:32  [INFO ]  [repeat 2/10] Sweep complete — 30 points written to data_02.csv
+  2026-05-15 16:07:32  [INFO ]  === Repeat 2/10 complete ===
+  2026-05-15 16:07:32  [INFO ]  === Repeat 3/10 starting → data_03.csv ===
+  2026-05-15 16:07:32  [INFO ]  [repeat 3/10] Moving to start position: 0.0°
+  2026-05-15 16:07:42  [INFO ]  [repeat 3/10] Reached start position: 0.0000°
+  2026-05-15 16:07:42  [INFO ]  [repeat 3/10] ADC settling — 5 dummy reads on channels [1, 3]
+  2026-05-15 16:07:47  [INFO ]  [repeat 3/10] ADC settled
+  2026-05-15 16:07:47  [INFO ]  [repeat 3/10] Sweep started — 0.0° → 90.0°, 30 steps of +3.000°, settle=0.1 s, channels=[1, 3]
+  2026-05-15 16:08:48  [INFO ]  [repeat 3/10] Sweep complete — 30 points written to data_03.csv
+  2026-05-15 16:08:48  [INFO ]  === Repeat 3/10 complete ===
+  2026-05-15 16:08:48  [INFO ]  === Repeat 4/10 starting → data_04.csv ===
+  2026-05-15 16:08:48  [INFO ]  [repeat 4/10] Moving to start position: 0.0°
+  2026-05-15 16:08:58  [INFO ]  [repeat 4/10] Reached start position: 0.0000°
+  2026-05-15 16:08:58  [INFO ]  [repeat 4/10] ADC settling — 5 dummy reads on channels [1, 3]
+  2026-05-15 16:09:03  [INFO ]  [repeat 4/10] ADC settled
+  2026-05-15 16:09:03  [INFO ]  [repeat 4/10] Sweep started — 0.0° → 90.0°, 30 steps of +3.000°, settle=0.1 s, channels=[1, 3]
+  2026-05-15 16:10:04  [INFO ]  [repeat 4/10] Sweep complete — 30 points written to data_04.csv
+  2026-05-15 16:10:04  [INFO ]  === Repeat 4/10 complete ===
+  2026-05-15 16:10:04  [INFO ]  === Repeat 5/10 starting → data_05.csv ===
+  2026-05-15 16:10:04  [INFO ]  [repeat 5/10] Moving to start position: 0.0°
+  2026-05-15 16:10:14  [INFO ]  [repeat 5/10] Reached start position: 0.0000°
+  2026-05-15 16:10:14  [INFO ]  [repeat 5/10] ADC settling — 5 dummy reads on channels [1, 3]
+  2026-05-15 16:10:19  [INFO ]  [repeat 5/10] ADC settled
+  2026-05-15 16:10:19  [INFO ]  [repeat 5/10] Sweep started — 0.0° → 90.0°, 30 steps of +3.000°, settle=0.1 s, channels=[1, 3]
+  2026-05-15 16:11:20  [INFO ]  [repeat 5/10] Sweep complete — 30 points written to data_05.csv
+  2026-05-15 16:11:20  [INFO ]  === Repeat 5/10 complete ===
+  2026-05-15 16:11:20  [INFO ]  === Repeat 6/10 starting → data_06.csv ===
+  2026-05-15 16:11:20  [INFO ]  [repeat 6/10] Moving to start position: 0.0°
+  2026-05-15 16:11:30  [INFO ]  [repeat 6/10] Reached start position: 0.0000°
+  2026-05-15 16:11:30  [INFO ]  [repeat 6/10] ADC settling — 5 dummy reads on channels [1, 3]
+  2026-05-15 16:11:35  [INFO ]  [repeat 6/10] ADC settled
+  2026-05-15 16:11:35  [INFO ]  [repeat 6/10] Sweep started — 0.0° → 90.0°, 30 steps of +3.000°, settle=0.1 s, channels=[1, 3]
+  2026-05-15 16:12:36  [INFO ]  [repeat 6/10] Sweep complete — 30 points written to data_06.csv
+  2026-05-15 16:12:36  [INFO ]  === Repeat 6/10 complete ===
+  2026-05-15 16:12:36  [INFO ]  === Repeat 7/10 starting → data_07.csv ===
+  2026-05-15 16:12:36  [INFO ]  [repeat 7/10] Moving to start position: 0.0°
+  2026-05-15 16:12:46  [INFO ]  [repeat 7/10] Reached start position: 0.0000°
+  2026-05-15 16:12:46  [INFO ]  [repeat 7/10] ADC settling — 5 dummy reads on channels [1, 3]
+  2026-05-15 16:12:51  [INFO ]  [repeat 7/10] ADC settled
+  2026-05-15 16:12:51  [INFO ]  [repeat 7/10] Sweep started — 0.0° → 90.0°, 30 steps of +3.000°, settle=0.1 s, channels=[1, 3]
+  2026-05-15 16:13:52  [INFO ]  [repeat 7/10] Sweep complete — 30 points written to data_07.csv
+  2026-05-15 16:13:52  [INFO ]  === Repeat 7/10 complete ===
+  2026-05-15 16:13:52  [INFO ]  === Repeat 8/10 starting → data_08.csv ===
+  2026-05-15 16:13:52  [INFO ]  [repeat 8/10] Moving to start position: 0.0°
+  2026-05-15 16:14:02  [INFO ]  [repeat 8/10] Reached start position: 0.0000°
+  2026-05-15 16:14:02  [INFO ]  [repeat 8/10] ADC settling — 5 dummy reads on channels [1, 3]
+  2026-05-15 16:14:07  [INFO ]  [repeat 8/10] ADC settled
+  2026-05-15 16:14:07  [INFO ]  [repeat 8/10] Sweep started — 0.0° → 90.0°, 30 steps of +3.000°, settle=0.1 s, channels=[1, 3]
+  2026-05-15 16:15:08  [INFO ]  [repeat 8/10] Sweep complete — 30 points written to data_08.csv
+  2026-05-15 16:15:08  [INFO ]  === Repeat 8/10 complete ===
+  2026-05-15 16:15:08  [INFO ]  === Repeat 9/10 starting → data_09.csv ===
+  2026-05-15 16:15:08  [INFO ]  [repeat 9/10] Moving to start position: 0.0°
+  2026-05-15 16:15:18  [INFO ]  [repeat 9/10] Reached start position: 0.0000°
+  2026-05-15 16:15:18  [INFO ]  [repeat 9/10] ADC settling — 5 dummy reads on channels [1, 3]
+  2026-05-15 16:15:23  [INFO ]  [repeat 9/10] ADC settled
+  2026-05-15 16:15:23  [INFO ]  [repeat 9/10] Sweep started — 0.0° → 90.0°, 30 steps of +3.000°, settle=0.1 s, channels=[1, 3]
+  2026-05-15 16:16:24  [INFO ]  [repeat 9/10] Sweep complete — 30 points written to data_09.csv
+  2026-05-15 16:16:24  [INFO ]  === Repeat 9/10 complete ===
+  2026-05-15 16:16:24  [INFO ]  === Repeat 10/10 starting → data_10.csv ===
+  2026-05-15 16:16:24  [INFO ]  [repeat 10/10] Moving to start position: 0.0°
+  2026-05-15 16:16:34  [INFO ]  [repeat 10/10] Reached start position: 0.0000°
+  2026-05-15 16:16:34  [INFO ]  [repeat 10/10] ADC settling — 5 dummy reads on channels [1, 3]
+  2026-05-15 16:16:39  [INFO ]  [repeat 10/10] ADC settled
+  2026-05-15 16:16:39  [INFO ]  [repeat 10/10] Sweep started — 0.0° → 90.0°, 30 steps of +3.000°, settle=0.1 s, channels=[1, 3]
+  2026-05-15 16:17:40  [INFO ]  [repeat 10/10] Sweep complete — 30 points written to data_10.csv
+  2026-05-15 16:17:40  [INFO ]  === Repeat 10/10 complete ===
+  2026-05-15 16:17:40  [INFO ]  Returning to start position: 0.0°
+  2026-05-15 16:17:50  [INFO ]  Returned to 0.0000°
+  2026-05-15 16:17:50  [INFO ]  K10CR1 connection closed
+  2026-05-15 16:17:50  [INFO ]  Arduino connection closed
+  2026-05-15 16:17:50  [INFO ]  3491 Laser connection closed
+  2026-05-15 16:17:50  [INFO ]  End time     : 2026-05-15 16:17:50
+  2026-05-15 16:17:50  [INFO ]  Total runtime: 12m 46s
+  2026-05-15 16:17:50  [INFO ]  Status       : SUCCESS
+
+  ------------------------------------------------------------------------------
+================================================================================
