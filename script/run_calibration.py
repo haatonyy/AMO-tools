@@ -8,9 +8,11 @@ to start_deg when done.
 
 Output:
     data/data-calibrated/<MMDDYYYY>/<MMDDYYYY>-<HHMMSS>/
-        ├── data.csv       — one row per step: pos, ch{a}_V, ch{b}_V, ...
-        ├── params.json    — full run parameters (incl. date, time, laser conditions)
-        └── log.txt        — timestamped event log
+        ├── data_01.csv     — first repeat: pos, ch{a}_V, ch{b}_V, ...
+        ├── data_02.csv     — second repeat (if n_repeats > 1)
+        ├── ...
+        ├── params.json     — single, shared across repeats
+        └── log.txt         — single, shared across repeats
 
 Edit parameters in main() and run:
     python run_calibration.py
@@ -19,6 +21,11 @@ Edit parameters in main() and run:
 import os
 import time
 from datetime import datetime
+
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+PROJECT_ROOT = Path(__file__).resolve().parent.parent 
 
 import exp.data_io as data_io
 from exp.devices import config
@@ -42,6 +49,8 @@ def sweep_and_record(
     step_deg: float,
     settle_s: float,
     channels: list[int],
+    run_index: int = 1,
+    n_repeats: int = 1,
 ) -> list[tuple]:
     """
     Move to start_deg, step toward end_deg with move_to(), record the
@@ -50,6 +59,10 @@ def sweep_and_record(
     The laser is assumed to already be at its target current (set at
     construction in run_l2_scan); this function does not touch it.
 
+    Args:
+        run_index, n_repeats: used only for the print/log prefix so the user
+                              can see "repeat 2/5" during multi-run scans.
+
     Returns list of (position_deg, ch_a_V, ch_b_V, ...) — one entry per
     channel in `channels`, in the order given.
     """
@@ -57,27 +70,29 @@ def sweep_and_record(
     direction   = 1.0 if end_deg >= start_deg else -1.0
     signed_step = direction * abs(step_deg)
 
+    tag = f"[repeat {run_index}/{n_repeats}] " if n_repeats > 1 else ""
+
     csv_columns = ["l2_pos_deg"] + [f"ch{c}_V" for c in channels]
     data_io.write_csv_header(csv_path, csv_columns)
 
     # Move to start
-    data_io.log_event(log_path, f"Moving to start position: {start_deg}°")
+    data_io.log_event(log_path, f"{tag}Moving to start position: {start_deg}°")
     stage.move_to(start_deg)
-    data_io.log_event(log_path, f"Reached start position: {stage.get_position():.4f}°")
+    data_io.log_event(log_path, f"{tag}Reached start position: {stage.get_position():.4f}°")
 
     # ADC settle
     n_dummy = 5
-    data_io.log_event(log_path, f"ADC settling — {n_dummy} dummy reads on channels {channels}")
+    data_io.log_event(log_path, f"{tag}ADC settling — {n_dummy} dummy reads on channels {channels}")
     arduino.reset_input_buffer()
     for _ in range(n_dummy):
         for c in channels:
             arduino.read_channel(c)
         time.sleep(0.1)
-    data_io.log_event(log_path, "ADC settled")
+    data_io.log_event(log_path, f"{tag}ADC settled")
 
     # Sweep
-    data_io.log_event(log_path, f"Sweep started — {start_deg}° → {end_deg}°, {n_steps} steps of {signed_step:+.3f}°, settle={settle_s} s, channels={channels}")
-    print(f"[scan_l2] Sweeping {start_deg}° → {end_deg}° ({n_steps} steps), channels = {channels}")
+    data_io.log_event(log_path, f"{tag}Sweep started — {start_deg}° → {end_deg}°, {n_steps} steps of {signed_step:+.3f}°, settle={settle_s} s, channels={channels}")
+    print(f"[scan_l2] {tag}Sweeping {start_deg}° → {end_deg}° ({n_steps} steps), channels = {channels}")
 
     results = []
     for i in range(n_steps):
@@ -94,9 +109,9 @@ def sweep_and_record(
         results.append((pos, *readings))
 
         ch_str = ",  ".join(f"ch{c} = {v} V" for c, v in zip(channels, readings))
-        print(f"  Step {i+1:3d}/{n_steps}: pos = {pos:8.4f}°,  {ch_str}")
+        print(f"  {tag}Step {i+1:3d}/{n_steps}: pos = {pos:8.4f}°,  {ch_str}")
 
-    data_io.log_event(log_path, f"Sweep complete — {n_steps} points written to {os.path.basename(csv_path)}")
+    data_io.log_event(log_path, f"{tag}Sweep complete — {n_steps} points written to {os.path.basename(csv_path)}")
     return results
 
 
@@ -110,11 +125,12 @@ def run_l2_scan(
     step_deg: float = 3.0,
     settle_s: float = 0.3,
     channels: list[int] | None = None,
+    n_repeats: int = 1,
     laser_3491_port: str = config.LASER3491_PORT,
     laser_current_mA: float = config.I_INIT_mA,
     laser_thermistor_R: float = config.THERMISTOR_R,
     experiment_message: str = "calibrated",
-    data_root: str = "data/data-calibrated",
+    data_root: str = str(PROJECT_ROOT / "data" / "data-calibrated") ,
     arduino_port: str = config.ARDUINO_PORT,
     kinesis_port: str = config.KINESIS_PORT,
     adc_gain: int = config.ADC_GAIN,
@@ -123,9 +139,16 @@ def run_l2_scan(
     Full λ/2 scan: move to start, sweep to end, return to start when done.
 
     Drives the 3491 laser to `laser_current_mA` at startup, then sweeps the
-    K10CR1 waveplate and records the requested Arduino ADC channels.
+    K10CR1 waveplate `n_repeats` times and records the requested Arduino
+    ADC channels.
 
-    Output: <data_root>/<MMDDYYYY>/<MMDDYYYY>-<HHMMSS>/{data.csv, params.json, log.txt}
+    Output:
+        <data_root>/<MMDDYYYY>/<MMDDYYYY>-<HHMMSS>/
+            ├── data_01.csv     ← first repeat
+            ├── data_02.csv     ← second repeat (if n_repeats > 1)
+            ├── ...
+            ├── params.json     ← single, shared across repeats
+            └── log.txt         ← single, shared across repeats
 
     Args:
         start_deg:           Absolute start angle (degrees).
@@ -136,6 +159,8 @@ def run_l2_scan(
                              [1, 3]. Each channel becomes its own CSV column
                              named "ch{n}_V". Must be a subset of {0,1,2,3};
                              current Arduino firmware supports {1, 3}.
+        n_repeats:           Number of times to repeat the full sweep, each
+                             saved as data_{i:02d}.csv. Default 1.
         laser_3491_port:     Serial port for the Arroyo 3491 laser controller.
         laser_current_mA:    3491 laser drive current; the laser ramps to this
                              value at startup (with a ~5 s stabilization wait).
@@ -158,6 +183,8 @@ def run_l2_scan(
     invalid = [c for c in channels if c not in (0, 1, 2, 3)]
     if invalid:
         raise ValueError(f"Invalid channel(s) {invalid}. Must be from 0, 1, 2, 3.")
+    if n_repeats < 1:
+        raise ValueError(f"`n_repeats` must be >= 1, got {n_repeats}.")
 
     start_time = datetime.now()
     n_steps    = int(abs(end_deg - start_deg) / step_deg)
@@ -168,7 +195,6 @@ def run_l2_scan(
     folder_name = os.path.join(data_root, date_str, f"{date_str}-{time_str}")
     os.makedirs(folder_name, exist_ok=True)
 
-    csv_path = os.path.join(folder_name, "data.csv")
     log_path = os.path.join(folder_name, "log.txt")
     print(f"[scan_l2] Output folder: {folder_name}")
 
@@ -193,13 +219,14 @@ def run_l2_scan(
         "Total sweep":        f"{n_steps * step_deg:.2f} deg",
         "Settle time":        f"{settle_s} s",
         "Channels":           channels,
+        "Repeats":            n_repeats,
         "Laser current":      f"{laser_current_mA} mA",
         "Laser thermistor R": f"{laser_thermistor_R} Ohm",
         "Laser temperature":  f"{laser_temperature_C} C",
         "ADC gain code":      adc_gain,
         "ADC range":          adc_range,
         "ADC precision":      f"{adc_precision_mV} mV/bit",
-        "Data file":          "data.csv",
+        "Data files":         f"data_01.csv … data_{n_repeats:02d}.csv" if n_repeats > 1 else "data_01.csv",
     }
     data_io.log_open(log_path, "λ/2 WAVEPLATE POSITION SCAN", params)
 
@@ -239,6 +266,7 @@ def run_l2_scan(
             "end_deg":               end_deg,
             "step_deg":              step_deg,
             "n_steps":               n_steps,
+            "n_repeats":             n_repeats,
             "settle_s":              settle_s,
             "channels":              channels,
             "laser_current_mA":      laser_current_mA,
@@ -250,18 +278,24 @@ def run_l2_scan(
             "arduino_id":            config.ARDUINO_ID_EXPECTED,
         })
 
-        # 5. Sweep
-        sweep_and_record(
-            stage     = stage,
-            arduino   = arduino,
-            csv_path  = csv_path,
-            log_path  = log_path,
-            start_deg = start_deg,
-            end_deg   = end_deg,
-            step_deg  = step_deg,
-            settle_s  = settle_s,
-            channels  = channels,
-        )
+        # 5. Run the sweep n_repeats times, one CSV per repeat
+        for i in range(1, n_repeats + 1):
+            csv_path = os.path.join(folder_name, f"data_{i:02d}.csv")
+            data_io.log_event(log_path, f"=== Repeat {i}/{n_repeats} starting → {os.path.basename(csv_path)} ===")
+            sweep_and_record(
+                stage     = stage,
+                arduino   = arduino,
+                csv_path  = csv_path,
+                log_path  = log_path,
+                start_deg = start_deg,
+                end_deg   = end_deg,
+                step_deg  = step_deg,
+                settle_s  = settle_s,
+                channels  = channels,
+                run_index = i,
+                n_repeats = n_repeats,
+            )
+            data_io.log_event(log_path, f"=== Repeat {i}/{n_repeats} complete ===")
 
     finally:
         # 6. Cleanup — runs even if open/identify/sweep failed.
@@ -313,10 +347,11 @@ def main():
     step_deg            = 3.0
     settle_s            = 0.1
     channels            = [1, 3]
-    laser_current_mA    = config.I_INIT_mA       # 3491 laser drive current
+    n_repeats           = 10                      # number of full sweeps; data_01.csv … data_NN.csv
+    laser_current_mA    = 80.00      # 3491 laser drive current
     laser_thermistor_R  = config.THERMISTOR_R    # thermistor R for temperature derivation
     experiment_message  = "calibrated"
-    data_root           = "data/data-calibrated"
+    data_root           = str(PROJECT_ROOT / "data" / "data-calibrated") 
     arduino_port        = config.ARDUINO_PORT
     kinesis_port        = config.KINESIS_PORT
     laser_3491_port     = config.LASER3491_PORT
@@ -329,6 +364,7 @@ def main():
         step_deg            = step_deg,
         settle_s            = settle_s,
         channels            = channels,
+        n_repeats           = n_repeats,
         laser_current_mA    = laser_current_mA,
         laser_thermistor_R  = laser_thermistor_R,
         experiment_message  = experiment_message,

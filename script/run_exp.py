@@ -24,6 +24,11 @@ import os
 import time
 from datetime import datetime
 
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+PROJECT_ROOT = Path(__file__).resolve().parent.parent 
+
 import exp.data_io as data_io
 from exp.devices import config
 from exp.devices.arduino import ArduinoADS1115
@@ -220,7 +225,7 @@ def run_single_sweep(
 
 def run_experiment(
     experiment_message: str = "",
-    data_root: str = "data/data-exp",
+    data_root: str = str(PROJECT_ROOT / "data" / "data-experiment") ,
     laser_port: str = config.LASER3491_PORT,
     arduino_port: str = config.ARDUINO_PORT,
     kinesis_port: str = config.KINESIS_PORT,
@@ -370,7 +375,7 @@ def run_experiment(
 def main():
     # ====== EDIT THESE PARAMETERS ======================================== #
     experiment_message  = "Experiment scanning multiple l2_position_deg values"
-    data_root           = "data/data-experiment"
+    data_root           = str(PROJECT_ROOT / "data" / "data-experiment") 
     channels            = [1, 3]
 
     # Laser sweep
@@ -380,7 +385,7 @@ def main():
     step_delay_s        = config.STEP_DELAY_S
 
     # Stage positions to visit (one full current sweep per position)
-    l2_positions        = [69]   # 30.0, 30.2, ..., 34.0
+    l2_positions        = [30]   # 30.0, 30.2, ..., 34.0
     # l2_positions      = [config.KINESIS_HIGH_3491_POWER_POS,
     #                      config.KINESIS_MID_3491_POWER_POS,
     #                      config.KINESIS_LOW_3491_POWER_POS]
@@ -393,7 +398,7 @@ def main():
     laser_port          = config.LASER3491_PORT
     arduino_port        = config.ARDUINO_PORT
     kinesis_port        = config.KINESIS_PORT
-    adc_gain            = config.ADC_GAIN
+    adc_gain            = 8
     # ===================================================================== #
 
     run_experiment(
