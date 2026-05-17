@@ -1,0 +1,54 @@
+================================================================================
+  λ/2 WAVEPLATE POSITION SCAN
+================================================================================
+
+  PARAMETERS
+  ------------------------------------------------------------------------------
+  Folder                       /home/aqua/Documents/AMO-tools/data/data-calibrated/05162026/05162026-132956
+  Date                         05162026
+  Time                         132956
+  Arduino port                 /dev/ttyACM1
+  Kinesis port                 /dev/ttyUSB0
+  Laser 3491 port              /dev/ttyUSB1
+  Experiment message           calibrated
+  Scan start                   0.0 deg
+  Scan end                     90.0 deg
+  Step size                    3.0 deg
+  Steps                        30
+  Total sweep                  90.00 deg
+  Settle time                  0.1 s
+  Channels                     [1, 3]
+  Repeats                      10
+  Laser current                80.0 mA
+  Laser thermistor R           8370.0 Ohm
+  Laser temperature            29.739931671787133 C
+  ADC gain code                1
+  ADC range                    ±4.096 V
+  ADC precision                0.125 mV/bit
+  Data files                   data_01.csv … data_10.csv
+
+  ------------------------------------------------------------------------------
+  EVENT LOG
+  ------------------------------------------------------------------------------
+  2026-05-16 13:29:56  [INFO ]  Log opened — 2026-05-16 13:29:56
+  2026-05-16 13:29:57  [INFO ]  Arduino verified: 3491_PD_01
+  2026-05-16 13:29:57  [INFO ]  Arduino START sent (gain code 1, ±4.096 V)
+  2026-05-16 13:29:57  [INFO ]  K10CR1 connected on /dev/ttyUSB0
+  2026-05-16 13:30:03  [INFO ]  3491 Laser initialized on /dev/ttyUSB1 at 80.0 mA
+  2026-05-16 13:30:03  [INFO ]  === Repeat 1/10 starting → data_01.csv ===
+  2026-05-16 13:30:03  [INFO ]  [repeat 1/10] Moving to start position: 0.0°
+  2026-05-16 13:30:06  [INFO ]  [repeat 1/10] Reached start position: 0.0000°
+  2026-05-16 13:30:06  [INFO ]  [repeat 1/10] ADC settling — 5 dummy reads on channels [1, 3]
+  2026-05-16 13:30:11  [INFO ]  [repeat 1/10] ADC settled
+  2026-05-16 13:30:11  [INFO ]  [repeat 1/10] Sweep started — 0.0° → 90.0°, 30 steps of +3.000°, settle=0.1 s, channels=[1, 3]
+  2026-05-16 13:30:26  [INFO ]  Returning to start position: 0.0°
+  2026-05-16 13:30:30  [INFO ]  Returned to 0.0000°
+  2026-05-16 13:30:30  [INFO ]  K10CR1 connection closed
+  2026-05-16 13:30:30  [INFO ]  Arduino connection closed
+  2026-05-16 13:30:30  [INFO ]  3491 Laser connection closed
+  2026-05-16 13:30:30  [INFO ]  End time     : 2026-05-16 13:30:30
+  2026-05-16 13:30:30  [INFO ]  Total runtime: 0m 34s
+  2026-05-16 13:30:30  [INFO ]  Status       : SUCCESS
+
+  ------------------------------------------------------------------------------
+================================================================================

@@ -97,16 +97,38 @@ class ArduinoADS1115:
     #   4  → GAIN_FOUR       ±1.024 V  (0.03125   mV/bit)
     #   8  → GAIN_EIGHT      ±0.512 V  (0.015625  mV/bit)
     #  16  → GAIN_SIXTEEN    ±0.256 V  (0.0078125 mV/bit)
-    def set_adc_gain(self, gain_code: int):
+    def set_adc_gain_all(self, gain_code: int):
         """
         Set the ADS1115 gain from Python.
 
         Args:
             gain_code: One of 0, 1, 2, 4, 8, 16.
         """
-        valid = {0, 1, 2, 4, 8, 16}
-        if gain_code not in valid:
-            raise ValueError(f"Invalid gain code {gain_code}. Must be one of {valid}")
-        self.serial.write(f"GAIN {gain_code}\n".encode())
+        #valid_gains = {0, 1, 2, 4, 8, 16}
+        #if gain_code not in valid_gains:
+        #    raise ValueError(f"Invalid gain code {gain_code}. Must be one of {valid_gains}")
+        
+        for ch in [0,1,2,3]:
+            self.set_adc_channel_gain(gain_code, ch)
+
+    def set_adc_channel_gain(self, gain_code: int, channel: int):
+        """
+        Set the ADS1115 gain from Python for a specific channel
+
+        Args:
+            gain_code: One of 0, 1, 2, 4, 8, 16.
+        """
+        valid_gains = {0, 1, 2, 4, 8, 16}
+        valid_channels = {0, 1, 2, 3}
+        if gain_code not in valid_gains:
+            raise ValueError(f"Invalid gain code {gain_code}. Must be one of {valid_gains}")
+        if channel not in valid_channels:
+            raise ValueError(f"Invalid channel {channel}. Must be one of {valid_channels}")
+        
+        self.serial.write(f"GAINCH {channel} {gain_code}\n".encode())
         response = self.serial.readline().decode(errors="ignore").strip()
-        print(f"[arduino] Gain set: {response}")
+        print(f"[arduino] Set channel {channel} gain: {response}")
+
+    def set_adc_gain(self, gain_dict: dict):
+        for channel in gain_dict.keys():
+            self.set_adc_channel_gain(gain_dict[channel], channel)

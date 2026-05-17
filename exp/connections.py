@@ -12,7 +12,7 @@ import exp.devices.config as config
 #  Individual connection checks (quick open/close — safe to call before run)  #
 # --------------------------------------------------------------------------- #
 
-def check_laser_connection(port: str = config.LASER_PORT) -> bool:
+def check_laser_connection(port: str = config.LASER3491_PORT) -> bool:
     """
     Open the laser port briefly, query its identity, and close it.
 
@@ -98,7 +98,7 @@ def check_kinesis_connection(port: str = config.KINESIS_PORT) -> bool:
 
 
 def verify_all_connections(
-    laser_port: str = config.LASER_PORT,
+    laser_port: str = config.LASER3491_PORT,
     arduino_port: str = config.ARDUINO_PORT,
     kinesis_port: str = config.KINESIS_PORT,
 ) -> bool:

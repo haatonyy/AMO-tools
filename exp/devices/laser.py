@@ -78,6 +78,10 @@ class Laser:
 
         self.current_mA = i_mA
 
+    def increase_current_one_step(self, step_delay_s):
+        self.write_laser_command(b"LASer:INC", 1)
+        time.sleep(step_delay_s)
+    
     def get_current_mA(self):
         pass
 

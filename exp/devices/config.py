@@ -50,4 +50,10 @@ ADC_GAIN_TABLE = {
     8:  ("±0.512 V", 0.015625),
     16: ("±0.256 V", 0.0078125),
 }
-ADC_GAIN = 4   # default: GAIN_FOUR ±1.024 V, 0.03125 mV/bit
+
+ADC_GAIN_DICT = {
+    0: 1,   #channel 0
+    1: 1,   #channel 1
+    2: 1,   #channel 2
+    3: 1    #channel 3
+}   # default: all channels at GAIN_ONE (±4.096 V, 0.125 mV/bit)

@@ -1,0 +1,27 @@
+{
+    "experiment_message": "calibrated",
+    "folder": "/home/aqua/Documents/AMO-tools/data/data-calibrated/05162026/05162026-133246",
+    "date": "05162026",
+    "time": "133246",
+    "run_start": "2026-05-16 13:32:46",
+    "arduino_port": "/dev/ttyACM1",
+    "kinesis_port": "/dev/ttyUSB0",
+    "laser_3491_port": "/dev/ttyUSB1",
+    "start_deg": 0.0,
+    "end_deg": 90.0,
+    "step_deg": 3.0,
+    "n_steps": 30,
+    "n_repeats": 1,
+    "settle_s": 0.1,
+    "channels": [
+        1,
+        3
+    ],
+    "laser_current_mA": 80.0,
+    "laser_thermistor_R_Ohm": 8370.0,
+    "laser_temperature_C": 29.739931671787133,
+    "adc_gain_code": 1,
+    "adc_range": "\u00b14.096 V",
+    "adc_precision_mV_bit": 0.125,
+    "arduino_id": "3491_PD_01"
+}

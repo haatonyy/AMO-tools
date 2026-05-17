@@ -28,6 +28,7 @@ class K10CR1:
         port: str = config.KINESIS_PORT,
         initialize_to_home: bool = False,
         verbose: bool = True,
+        name: str = None
     ):
         """
         Open connection to the stage and optionally home it.
@@ -39,6 +40,7 @@ class K10CR1:
         """
         self.port = port
         self.verbose = verbose
+        self.name = name
 
         self.motor = Thorlabs.KinesisMotor(port, scale=136533)
         time.sleep(0.5)
