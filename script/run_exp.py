@@ -123,17 +123,23 @@ def run_single_sweep(
     i_final_mA: float,
     step_size_mA: float,
     step_delay_s: float,
-    p852_mW: float,
+    pi852_mW: float,
+    pf852_mW: float,
     l2_position_deg: float | None,
     laser_thermistor_R: float,
-    adc_gain: int,
+    adc_gains: dict[int, int],
 ):
     """Run one current sweep, saving to data_NN.csv, log_NN.txt, params_NN.json."""
     csv_path   = os.path.join(folder_name, f"data_{run_index:02d}.csv")
     log_path   = os.path.join(folder_name, f"log_{run_index:02d}.txt")
     start_time = datetime.now()
 
-    adc_range, adc_precision_mV = config.ADC_GAIN_TABLE[adc_gain]
+    gain_info_per_channel = {
+        c: {"code":         adc_gains[c],
+            "range":        config.ADC_GAIN_TABLE[adc_gains[c]][0],
+            "precision_mV": config.ADC_GAIN_TABLE[adc_gains[c]][1]}
+        for c in channels
+    }
     laser_temperature_C = get_3491_laser_temp(laser_thermistor_R)
 
     # params.json
@@ -154,41 +160,44 @@ def run_single_sweep(
             "i_final_mA":            i_final_mA,
             "current_step_mA":       step_size_mA,
             "step_delay_s":          step_delay_s,
-            "p852_mW":               p852_mW,
+            "pi852_mW":              pi852_mW,
+            "pf852_mW":              pf852_mW,
             "l2_position_deg":       l2_position_deg,
-            "adc_gain_code":         adc_gain,
-            "adc_range":             adc_range,
-            "adc_precision_mV_bit":  adc_precision_mV,
+            "adc_gains":             {f"ch{c}": adc_gains[c] for c in channels},
+            "adc_gain_info":         {f"ch{c}": gain_info_per_channel[c] for c in channels},
             "data_file":             os.path.basename(csv_path),
             "log_file":              os.path.basename(log_path),
         },
         filename=f"params_{run_index:02d}.json",
     )
 
-    # log header
+    # log header — build per-channel gain lines into the params dict
+    log_params = {
+        "Folder":                 folder_name,
+        "Laser device":           config.LASER_ID_EXPECTED,
+        "Arduino device":         config.ARDUINO_ID_EXPECTED,
+        "Experiment message":     experiment_message or "(none)",
+        "Cell temperature":       f"{config.CELL_T} C",
+        "Laser thermistor R":     f"{laser_thermistor_R} Ohm",
+        "3491 laser temperature": f"{laser_temperature_C:.3f} C",
+        "Channels":               channels,
+        "3491 initial current":   f"{i_init_mA} mA",
+        "3491 final current":     f"{i_final_mA} mA",
+        "Current step size":      f"{step_size_mA} mA",
+        "Step delay":             f"{step_delay_s} s",
+        "P852_in":                f"{pi852_mW} mW",
+        "P852_out":               f"{pf852_mW} mW",
+        "λ/2 position":           f"{l2_position_deg:.4f} deg" if l2_position_deg is not None else "not set",
+    }
+    for c in channels:
+        info = gain_info_per_channel[c]
+        log_params[f"ADC ch{c} gain"] = f"code {info['code']} ({info['range']}, {info['precision_mV']} mV/bit)"
+    log_params["Data file"] = os.path.basename(csv_path)
+
     data_io.log_open(
         log_path  = log_path,
         title     = "3491 nm CURRENT SWEEP EXPERIMENT",
-        params    = {
-            "Folder":                 folder_name,
-            "Laser device":           config.LASER_ID_EXPECTED,
-            "Arduino device":         config.ARDUINO_ID_EXPECTED,
-            "Experiment message":     experiment_message or "(none)",
-            "Cell temperature":       f"{config.CELL_T} C",
-            "Laser thermistor R":     f"{laser_thermistor_R} Ohm",
-            "3491 laser temperature": f"{laser_temperature_C:.3f} C",
-            "Channels":               channels,
-            "3491 initial current":   f"{i_init_mA} mA",
-            "3491 final current":     f"{i_final_mA} mA",
-            "Current step size":      f"{step_size_mA} mA",
-            "Step delay":             f"{step_delay_s} s",
-            "P852":                   f"{p852_mW} mW",
-            "λ/2 position":           f"{l2_position_deg:.4f} deg" if l2_position_deg is not None else "not set",
-            "ADC gain code":          adc_gain,
-            "ADC range":              adc_range,
-            "ADC precision":          f"{adc_precision_mV} mV/bit",
-            "Data file":              os.path.basename(csv_path),
-        },
+        params    = log_params,
         run_index = run_index,
     )
 
@@ -234,10 +243,11 @@ def run_experiment(
     i_final_mA: float = config.I_FINAL_mA,
     step_size_mA: float = config.CURRENT_STEP_SIZE,
     step_delay_s: float = config.STEP_DELAY_S,
-    p852_mW: float = 23.7,
+    pi852_mW: float = 27.7,
+    pf852_mW: float = 1.0,
     l2_positions: float | list[float] | None = None,
     laser_thermistor_R: float = config.THERMISTOR_R,
-    adc_gain: int = config.ADC_GAIN,
+    adc_gains: dict[int, int] = None,
 ):
     """
     Run one or more laser current sweeps, one per λ/2 stage position.
@@ -264,7 +274,9 @@ def run_experiment(
         p852_mW:             852 nm reference power, recorded as metadata only.
         l2_positions:        Single position, list, or None (no stage movement).
         laser_thermistor_R:  Thermistor resistance (Ω); fed through `get_3491_laser_temp`.
-        adc_gain:            ADS1115 gain code (see config.ADC_GAIN_TABLE).
+        adc_gains:           Per-channel ADS1115 gain. dict of {channel: code}.
+                             Default uses config.ADC_GAIN_DICT. Valid codes:
+                             0, 1, 2, 4, 8, 16.
     """
     # --- Validate channels ---
     if channels is None:
@@ -274,6 +286,17 @@ def run_experiment(
     invalid = [c for c in channels if c not in (0, 1, 2, 3)]
     if invalid:
         raise ValueError(f"Invalid channel(s) {invalid}. Must be from 0, 1, 2, 3.")
+
+    # --- Normalize adc_gains ---
+    if adc_gains is None:
+        adc_gains = dict(config.ADC_GAIN_DICT)
+    missing = [c for c in channels if c not in adc_gains]
+    if missing:
+        raise ValueError(f"adc_gains missing entries for channels {missing}")
+    valid_codes = set(config.ADC_GAIN_TABLE.keys())
+    for c in channels:
+        if adc_gains[c] not in valid_codes:
+            raise ValueError(f"Invalid gain code {adc_gains[c]} for ch{c}. Valid: {sorted(valid_codes)}")
 
     # --- Normalize l2 positions into a list ---
     if l2_positions is None:
@@ -302,10 +325,9 @@ def run_experiment(
         # Arduino
         arduino = ArduinoADS1115(port=arduino_port, adc_channels=channels)
         arduino.identify()
-        arduino.set_adc_gain(adc_gain)
+        arduino.set_adc_gain(adc_gains)
         arduino.start()
-        adc_range, _ = config.ADC_GAIN_TABLE[adc_gain]
-        print(f"[run] Arduino START sent (gain code {adc_gain}, {adc_range})")
+        print(f"[run] Arduino START sent. Per-channel gains: {adc_gains}")
 
         # K10CR1 (only if we'll actually move it)
         if any(p is not None for p in l2_list):
@@ -330,10 +352,11 @@ def run_experiment(
                 i_final_mA         = i_final_mA,
                 step_size_mA       = step_size_mA,
                 step_delay_s       = step_delay_s,
-                p852_mW            = p852_mW,
+                pi852_mW           = pi852_mW,
+                pf852_mW           = pf852_mW,
                 l2_position_deg    = l2_deg,
                 laser_thermistor_R = laser_thermistor_R,
-                adc_gain           = adc_gain,
+                adc_gains          = adc_gains,
             )
 
     finally:
@@ -385,20 +408,31 @@ def main():
     step_delay_s        = config.STEP_DELAY_S
 
     # Stage positions to visit (one full current sweep per position)
-    l2_positions        = [30]   # 30.0, 30.2, ..., 34.0
+    l2_positions        = [21, 25, 30, 35, 40, 45, 50, 55]   # 30.0, 30.2, ..., 34.0
     # l2_positions      = [config.KINESIS_HIGH_3491_POWER_POS,
     #                      config.KINESIS_MID_3491_POWER_POS,
     #                      config.KINESIS_LOW_3491_POWER_POS]
 
     # Metadata
-    p852_mW             = 27.7
+    pi852_mW            = 20.3
+    pf852_mW            = 0.1527
     laser_thermistor_R  = config.THERMISTOR_R
 
     # Hardware
     laser_port          = config.LASER3491_PORT
     arduino_port        = config.ARDUINO_PORT
     kinesis_port        = config.KINESIS_PORT
-    adc_gain            = 8
+    # Per-channel ADC gain: {channel: gain_code}. Valid codes: 0,1,2,4,8,16.
+    # Gain code → (range_str, precision_mV_per_bit)
+    #ADC_GAIN_TABLE = {
+    #0:  ("±6.144 V", 0.1875),
+    #1:  ("±4.096 V", 0.125),
+    #2:  ("±2.048 V", 0.0625),
+    #4:  ("±1.024 V", 0.03125),
+    #8:  ("±0.512 V", 0.015625),
+    #16: ("±0.256 V", 0.0078125),
+    #}
+    adc_gains           = {1: 16, 3: 16}
     # ===================================================================== #
 
     run_experiment(
@@ -412,10 +446,11 @@ def main():
         i_final_mA         = i_final_mA,
         step_size_mA       = step_size_mA,
         step_delay_s       = step_delay_s,
-        p852_mW            = p852_mW,
+        pi852_mW           = pi852_mW,
+        pf852_mW           = pf852_mW,
         l2_positions       = l2_positions,
         laser_thermistor_R = laser_thermistor_R,
-        adc_gain           = adc_gain,
+        adc_gains          = adc_gains,
     )
 
 

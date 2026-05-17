@@ -133,7 +133,7 @@ def run_l2_scan(
     data_root: str = str(PROJECT_ROOT / "data" / "data-calibrated") ,
     arduino_port: str = config.ARDUINO_PORT,
     kinesis_port: str = config.KINESIS_PORT,
-    adc_gain: int = config.ADC_GAIN,
+    adc_gains: dict[int, int] = None,
 ):
     """
     Full λ/2 scan: move to start, sweep to end, return to start when done.
@@ -186,6 +186,23 @@ def run_l2_scan(
     if n_repeats < 1:
         raise ValueError(f"`n_repeats` must be >= 1, got {n_repeats}.")
 
+    # --- Normalize adc_gains ---
+    if adc_gains is None:
+        adc_gains = dict(config.ADC_GAIN_DICT)
+    missing = [c for c in channels if c not in adc_gains]
+    if missing:
+        raise ValueError(f"adc_gains missing entries for channels {missing}")
+    valid_codes = set(config.ADC_GAIN_TABLE.keys())
+    for c in channels:
+        if adc_gains[c] not in valid_codes:
+            raise ValueError(f"Invalid gain code {adc_gains[c]} for ch{c}. Valid: {sorted(valid_codes)}")
+    gain_info_per_channel = {
+        c: {"code":         adc_gains[c],
+            "range":        config.ADC_GAIN_TABLE[adc_gains[c]][0],
+            "precision_mV": config.ADC_GAIN_TABLE[adc_gains[c]][1]}
+        for c in channels
+    }
+
     start_time = datetime.now()
     n_steps    = int(abs(end_deg - start_deg) / step_deg)
 
@@ -197,8 +214,6 @@ def run_l2_scan(
 
     log_path = os.path.join(folder_name, "log.txt")
     print(f"[scan_l2] Output folder: {folder_name}")
-
-    adc_range, adc_precision_mV = config.ADC_GAIN_TABLE[adc_gain]
 
     # Derive temperature once from the thermistor reading
     laser_temperature_C = get_3491_laser_temp(laser_thermistor_R)
@@ -223,11 +238,13 @@ def run_l2_scan(
         "Laser current":      f"{laser_current_mA} mA",
         "Laser thermistor R": f"{laser_thermistor_R} Ohm",
         "Laser temperature":  f"{laser_temperature_C} C",
-        "ADC gain code":      adc_gain,
-        "ADC range":          adc_range,
-        "ADC precision":      f"{adc_precision_mV} mV/bit",
-        "Data files":         f"data_01.csv … data_{n_repeats:02d}.csv" if n_repeats > 1 else "data_01.csv",
     }
+    # Per-channel gain info
+    for c in channels:
+        info = gain_info_per_channel[c]
+        params[f"ADC ch{c} gain"] = f"code {info['code']} ({info['range']}, {info['precision_mV']} mV/bit)"
+    params["Data files"] = f"data_01.csv … data_{n_repeats:02d}.csv" if n_repeats > 1 else "data_01.csv"
+
     data_io.log_open(log_path, "λ/2 WAVEPLATE POSITION SCAN", params)
 
     # 3. Open hardware + sweep, with guaranteed cleanup on any error
@@ -239,9 +256,9 @@ def run_l2_scan(
         arduino = ArduinoADS1115(port=arduino_port, adc_channels=channels)
         arduino.identify()
         data_io.log_event(log_path, f"Arduino verified: {config.ARDUINO_ID_EXPECTED}")
-        arduino.set_adc_gain(adc_gain)
+        arduino.set_adc_gain(adc_gains)
         arduino.start()
-        data_io.log_event(log_path, f"Arduino START sent (gain code {adc_gain}, {adc_range})")
+        data_io.log_event(log_path, f"Arduino START sent. Per-channel gains: {adc_gains}")
 
         #K10CR1 system
         stage = K10CR1(port=kinesis_port, verbose=False)
@@ -272,9 +289,8 @@ def run_l2_scan(
             "laser_current_mA":      laser_current_mA,
             "laser_thermistor_R_Ohm":laser_thermistor_R,
             "laser_temperature_C":   laser_temperature_C,
-            "adc_gain_code":         adc_gain,
-            "adc_range":             adc_range,
-            "adc_precision_mV_bit":  adc_precision_mV,
+            "adc_gains":             {f"ch{c}": adc_gains[c] for c in channels},
+            "adc_gain_info":         {f"ch{c}": gain_info_per_channel[c] for c in channels},
             "arduino_id":            config.ARDUINO_ID_EXPECTED,
         })
 
@@ -347,7 +363,7 @@ def main():
     step_deg            = 3.0
     settle_s            = 0.1
     channels            = [1, 3]
-    n_repeats           = 10                      # number of full sweeps; data_01.csv … data_NN.csv
+    n_repeats           = 1                    # number of full sweeps; data_01.csv … data_NN.csv
     laser_current_mA    = 80.00      # 3491 laser drive current
     laser_thermistor_R  = config.THERMISTOR_R    # thermistor R for temperature derivation
     experiment_message  = "calibrated"
@@ -355,7 +371,17 @@ def main():
     arduino_port        = config.ARDUINO_PORT
     kinesis_port        = config.KINESIS_PORT
     laser_3491_port     = config.LASER3491_PORT
-    adc_gain            = config.ADC_GAIN
+    # Per-channel gain: dict of {channel: gain_code}. Valid codes: 0,1,2,4,8,16.
+    # Example: {1: 1, 3: 4} → ch1 at GAIN_ONE (±4.096V), ch3 at GAIN_FOUR (±1.024V)
+    #ADC_GAIN_TABLE = {
+    #0:  ("±6.144 V", 0.1875),
+    #1:  ("±4.096 V", 0.125),
+    #2:  ("±2.048 V", 0.0625),
+    #4:  ("±1.024 V", 0.03125),
+    #8:  ("±0.512 V", 0.015625),
+    #16: ("±0.256 V", 0.0078125),
+    #}
+    adc_gains           = {1: 1, 3: 8}
     # ===================================================================== #
 
     run_l2_scan(
@@ -372,7 +398,7 @@ def main():
         arduino_port        = arduino_port,
         kinesis_port        = kinesis_port,
         laser_3491_port     = laser_3491_port,
-        adc_gain            = adc_gain,
+        adc_gains           = adc_gains,
     )
 
 
