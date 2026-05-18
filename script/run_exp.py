@@ -89,8 +89,9 @@ def acquire_data(
 
     for i in range(n_steps):
         # Step the laser current by one increment (size = LASer:STEP × 0.01 mA)
-        laser.write_laser_command(b"LASer:INC", 1)
-        time.sleep(step_delay_s)
+        laser.increase_current_one_step(step_delay_s)
+        #laser.write_laser_command(b"LASer:INC", 1)
+        #time.sleep(step_delay_s)
 
         current_mA = i_init_mA + (i + 1) * step_size_mA
         readings   = [arduino.read_channel(c) for c in channels]

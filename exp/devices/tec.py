@@ -1,55 +1,72 @@
 # tec.py - a class to control the TEC
 
+import serial
+import config
+
 class TemperatureController:
 
-    def __init__(
-            self,
-            port: str,
-            init_R: float,
-            name: str = None):
-        
+    def __init__(self, port: str, init_R: float, name: str = None):
         self.port = port
         self.name = name
 
-        self.Rmin_Ohm = 0.0
-        self.Rmax_Ohm = 0.0
+        self.Rhigh = 0.0
+        self.Rlow = 0.0
+        self.R_Ohm = init_R
 
-    def set_thermistor_R(R_Ohm: float):
+        self.tec_serial = serial.Serial(
+            port,
+            config.LASER_BAUD,
+            timeout=1,
+            stopbits=1,
+            parity="N",
+        )
+
+    def set_thermistor_R(self, R_Ohm: float):
+        self.R_Ohm = R_Ohm
+        self.write_command(b"TEC:T", R_Ohm, print_setup=True)
+
+    def set_Rhigh(self, R_Ohm: float):
+        self.Rmax_Ohm = R_Ohm
+        self.write_command(b"TEC:LIMit:THI", R_Ohm, print_setup=True)
+
+    def set_Rmin(self, R_Ohm: float):
+        self.Rmin_Ohm = R_Ohm
+        self.write_command(b"TEC:LIMit:TLO", R_Ohm, print_setup=True)
+
+    def set_step_size(self, step_size: int):
         pass
 
-    def set_Rmax(R_Ohm: float):
-        pass
+    def read_command(self, command_root: bytes, print_setup: bool = False):
+        ser = self.tec_serial
+        query = command_root + b"?\n"
 
-    def set_Rmin(R_Ohm: float):
-        pass
+        ser.write(query)
 
-    
+        # Read first line. This may be echo or echo+value.
+        response = ser.readline().decode(errors="ignore").strip()
 
+        # Case 1: response is like "TEC:T?10000"
+        if "?" in response and response != query.decode(errors="ignore").strip():
+            value = response.split("?", 1)[1]
 
-
-    
-    
-    
-    def write_command(self, command_root: bytes, value, print_setup: bool = False):
-        """
-        Send a value to a laser command register.
-
-        Args:
-            command_root: Command prefix as bytes, e.g. b'LASer:LDI'.
-            value:        Numeric value to write.
-            print_setup:  If True, query the register back and print the
-                          readback in a clean one-line format.
-        """
-        command = command_root + bytes(f" {value}\n", "utf-8")
-
-        ser = self.laser_serial
-        ser.write(command)
-        ser.read(len(command) - 1)          # consume echo
+        # Case 2: response is just echo, like "TEC:T?"
+        else:
+            response = ser.readline().decode(errors="ignore").strip()
+            value = response.split("?", 1)[1] if "?" in response else response
 
         if print_setup:
-            ser.write(command_root + b"?\n")
-            response = ser.readline().decode(errors="ignore").strip()
-            # Device echoes the query then appends the value, e.g.
-            # "LASer:LIMit:LDV?3.2". Strip the echoed prefix.
-            readback = response.split("?", 1)[1] if "?" in response else response
-            print(f"[laser] {command_root.decode()} = {readback}")
+            print(f"[tec] {command_root.decode()} = {value}")
+
+        return value
+
+    def write_command(self, command_root: bytes, value, print_setup: bool = False):
+        command = command_root + bytes(f" {value}\n", "utf-8")
+
+        ser = self.tec_serial
+        ser.write(command)
+
+        # consume echo
+        ser.readline()
+
+        if print_setup:
+            self.read_command(command_root, print_setup=True)

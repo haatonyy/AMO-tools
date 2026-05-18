@@ -47,13 +47,13 @@ class Laser:
         """Set laser safety limits"""
 
         # Set forward voltage limit
-        self.write_laser_command(b"LASer:LIMit:LDV",
+        self.write_command(b"LASer:LIMit:LDV",
                                  laser_voltage_limit_V,
                                  print_setup=True)
         self.voltage_limit_V = laser_voltage_limit_V
         
         # Set current limit
-        self.write_laser_command(b"LASer:LIMit:LDI",
+        self.write_command(b"LASer:LIMit:LDI",
                                  laser_current_limit_mA,
                                  print_setup=True)
         self.current_limit_mA = laser_current_limit_mA
@@ -62,7 +62,7 @@ class Laser:
     def set_step_mA(self,
                     laser_step=config.LASER_STEP_mA):
         """Set laser step size"""
-        self.write_laser_command(b"LASer:STEP",
+        self.write_command(b"LASer:STEP",
                                  laser_step,
                                  print_setup=True)
         self.step_mA = laser_step
@@ -71,7 +71,7 @@ class Laser:
     def set_current_mA(self, i_mA: float):
         """Set laser current in miliAmperes"""
         #Has to have the form of ab.xy
-        self.write_laser_command(b"LASer:LDI", i_mA)
+        self.write_command(b"LASer:LDI", i_mA)
         print(f"[laser] Ramping to {i_mA} mA — waiting 5 s...")
         #Wait 5 second to stabilize the temperature
         time.sleep(5)
@@ -79,7 +79,7 @@ class Laser:
         self.current_mA = i_mA
 
     def increase_current_one_step(self, step_delay_s):
-        self.write_laser_command(b"LASer:INC", 1)
+        self.write_command(b"LASer:INC", 1)
         time.sleep(step_delay_s)
     
     def get_current_mA(self):
@@ -89,7 +89,7 @@ class Laser:
         """Close the underlying serial connection."""
         self.laser_serial.close()
 
-    def write_laser_command(self, command_root: bytes, value, print_setup: bool = False):
+    def write_command(self, command_root: bytes, value, print_setup: bool = False):
         """
         Send a value to a laser command register.
 
