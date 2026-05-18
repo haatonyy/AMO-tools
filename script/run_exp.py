@@ -415,8 +415,8 @@ def main():
     #                      config.KINESIS_LOW_3491_POWER_POS]
 
     # Metadata
-    pi852_mW            = 17.7
-    pf852_mW            = 0.150
+    pi852_mW            = 6.683
+    pf852_mW            = 0.035
     laser_thermistor_R  = config.THERMISTOR_R
 
     # Hardware
