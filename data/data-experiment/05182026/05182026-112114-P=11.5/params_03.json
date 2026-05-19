@@ -1,7 +1,7 @@
 {
-    "run_index": 7,
+    "run_index": 3,
     "folder": "/home/aqua/Documents/AMO-tools/data/data-experiment/05182026/05182026-112114",
-    "run_start": "2026-05-18 12:08:00",
+    "run_start": "2026-05-18 11:36:56",
     "experiment_message": "Experiment scanning multiple l2_position_deg values",
     "laser_id": "Arroyo 4205-DR 110802133",
     "arduino_id": "3491_PD_01",
@@ -16,9 +16,9 @@
     "i_final_mA": 74.0,
     "current_step_mA": 0.01,
     "step_delay_s": 1.5,
-    "pi852_mW": 17.7,
-    "pf852_mW": 0.15,
-    "l2_position_deg": 50.0,
+    "pi852_mW": 11.5,
+    "pf852_mW": 0.058,
+    "l2_position_deg": 30.0,
     "adc_gains": {
         "ch1": 16,
         "ch3": 16
@@ -35,6 +35,6 @@
             "precision_mV": 0.0078125
         }
     },
-    "data_file": "data_07.csv",
-    "log_file": "log_07.txt"
+    "data_file": "data_03.csv",
+    "log_file": "log_03.txt"
 }
