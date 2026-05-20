@@ -11,7 +11,7 @@ from matplotlib.widgets import Slider, Button
 from glob import glob
 
 from utils import load_data
-from data_analysis import fit_linear_background_iterative
+from data_analysis.data_analysis import fit_linear_background_iterative
 from science import laser_current_to_freq_MHz_2
 
 # --------------------------------------------------------------------------- #

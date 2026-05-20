@@ -1,7 +1,7 @@
 from scipy.stats import linregress
 import numpy as np
 import json
-from .science import laser_current_to_freq_MHz_2
+from exp.science import laser_current_to_freq_MHz_2
 
 def fit_linear_background_iterative(x, y, niter=2, sigma=2.5):
     mask = np.ones_like(y, dtype=bool)
