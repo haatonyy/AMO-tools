@@ -407,18 +407,18 @@ def main():
     i_final_mA          = 74.0
     step_size_mA        = config.CURRENT_STEP_SIZE
     #step_delay_s        = config.STEP_DELAY_S
-    step_delay_s = 10
+    step_delay_s = 2
 
     # Stage positions to visit (one full current sweep per position)
-    # l2_positions        = [21, 25, 30, 35, 40, 45, 50, 55]
-    l2_positions        = [40] * 1    # 30.0, 30.2, ..., 34.0
+    l2_positions        = [21, 25, 30, 35, 40, 45, 50, 55]
+    # l2_positions        = [40] * 1    # 30.0, 30.2, ..., 34.0
     # l2_positions      = [config.KINESIS_HIGH_3491_POWER_POS,
     #                      config.KINESIS_MID_3491_POWER_POS,
     #                      config.KINESIS_LOW_3491_POWER_POS]
 
     # Metadata
-    pi852_mW            = 6.1
-    pf852_mW            = 0.033
+    pi852_mW            = 27.1
+    pf852_mW            = 0.83
     laser_thermistor_R  = config.THERMISTOR_R
 
     # Hardware
