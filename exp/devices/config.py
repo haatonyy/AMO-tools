@@ -3,7 +3,9 @@
 # --- Serial Ports ---
 LASER3491_PORT   = "/dev/ttyUSB1"
 ARDUINO_PORT = "/dev/ttyACM1"
-KINESIS_PORT = "/dev/ttyUSB0"
+KINESIS3491_PORT = "/dev/ttyUSB0"
+KINESIS852_PORT = "/dev/ttyUSB0"
+
 
 # --- Device Identity Strings ---
 LASER_ID_EXPECTED   = "Arroyo 4205-DR 110802133"
@@ -35,10 +37,10 @@ STEP_DELAY_S     = 1.5          # Pause between steps (seconds)
 ARDUINO_BOOT_S   = 1            # Wait after opening Arduino serial
 
 # --- Kinesis Rotary Stage ---
-KINESIS_STEPS_PER_DEG = 136533
-KINESIS_HIGH_3491_POWER_POS = -4.0 #0.78-0.79V
-KINESIS_MID_3491_POWER_POS = 18.5 #0.4
-KINESIS_LOW_3491_POWER_POS = 31.5 #0.08V
+#KINESIS_STEPS_PER_DEG = 136533
+#KINESIS_HIGH_3491_POWER_POS = -4.0 #0.78-0.79V
+#KINESIS_MID_3491_POWER_POS = 18.5 #0.4
+#KINESIS_LOW_3491_POWER_POS = 31.5 #0.08V
 
 # --- ADS1115 ADC ---
 # Gain code → (range_str, precision_mV_per_bit)
