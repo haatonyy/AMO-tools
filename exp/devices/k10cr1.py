@@ -25,7 +25,7 @@ class K10CR1:
 
     def __init__(
         self,
-        port: str = config.KINESIS_PORT,
+        port: str,
         initialize_to_home: bool = False,
         verbose: bool = True,
         name: str = None
