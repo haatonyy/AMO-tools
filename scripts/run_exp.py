@@ -238,7 +238,7 @@ def run_experiment(
     data_root: str = str(PROJECT_ROOT / "data" / "data-experiment") ,
     laser_port: str = config.LASER3491_PORT,
     arduino_port: str = config.ARDUINO_PORT,
-    kinesis_port: str = config.KINESIS_PORT,
+    kinesis_port: str = config.KINESIS3491_PORT,
     channels: list[int] | None = None,
     i_init_mA: float = config.I_INIT_mA,
     i_final_mA: float = config.I_FINAL_mA,
